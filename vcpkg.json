@@ -1,0 +1,10 @@
+{
+    "name": "scratch2cpp",
+    "version": "0.0.1",
+    "dependencies": [
+        "libzippp",
+        "nlohmann-json",
+        "glfw3",
+        "glad"
+    ]
+}
