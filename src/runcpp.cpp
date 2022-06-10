@@ -4,12 +4,12 @@
 GLfloat vertices[] = 
 {
     //              COORDINATES                       //        COLORS       //
-    -0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,    0.0f,   0.8f, 0.3f,  0.02f,  // Lower left corner
-    0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,     0.0f,   0.8f, 0.3f,  0.02f,  // Lower right corner
-    0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f,  0.0f,   1.0f, 0.6f,  0.32f,  // Upper corner
-    -0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f, 0.0f,   0.9f, 0.45f, 0.17f,  // Inner left
-    0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f,  0.0f,   0.9f, 0.45f, 0.17f,  // Inner right
-    0.0f, -0.5f * float(sqrt(3)) / 3, 0.0f,     0.0f,   0.8f, 0.3f,  0.02f   // Inner down 
+    -0.5f,  -0.5f * float(sqrt(3)) / 3,         0.0f,   0.8f, 0.3f,  0.02f,  // Lower left corner
+    0.5f,   -0.5f * float(sqrt(3)) / 3,         0.0f,   0.8f, 0.3f,  0.02f,  // Lower right corner
+    0.0f,    0.5f * float(sqrt(3)) * 2 / 3,     0.0f,   1.0f, 0.6f,  0.32f, // Upper corner
+    -0.25f,  0.5f * float(sqrt(3)) / 6,         0.0f,   0.9f, 0.45f, 0.17f,  // Inner left
+    0.25f,   0.5f * float(sqrt(3)) / 6,         0.0f,   0.9f, 0.45f, 0.17f,  // Inner right
+    0.0f,   -0.5f * float(sqrt(3)) / 3,         0.0f,   0.8f, 0.3f,  0.02f   // Inner down 
 };
 
 GLuint indices[] =
@@ -76,7 +76,8 @@ int main()
     EBO * EBO1 = new EBO(indices, sizeof(indices));
 
     // Links VBO to VAO
-    VAO1->linkVBO(VBO1, 0);
+    VAO1->linkAttrib(VBO1, 0, 3, GL_FLOAT, 6 * sizeof(float), nullptr);
+    VAO1->linkAttrib(VBO1, 1, 3, GL_FLOAT, 6 * sizeof(float), (void *)(3 * sizeof(float)));
     // Unbinds all to prevent accidentally modifying them
     VAO1->unbind();
     VBO1->unbind();

@@ -90,7 +90,7 @@ GLuint VAO::getID()
     return this->ID;
 }
 
-void linkAttrib(VBO * VBO, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void * offset)
+void VAO::linkAttrib(VBO * VBO, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void * offset)
 {
     VBO->bind();
     // Configures the Vertex Attribute so that OpenGL knows how to read the VBO
