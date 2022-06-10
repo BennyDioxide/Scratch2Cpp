@@ -75,13 +75,16 @@ int main()
     // Generates the element buffer object and link it to indices
     EBO * EBO1 = new EBO(indices, sizeof(indices));
 
-    // Links VBO to VAO
+    // Links VBO attributes such as coordinates and colors  VAO
     VAO1->linkAttrib(VBO1, 0, 3, GL_FLOAT, 6 * sizeof(float), nullptr);
     VAO1->linkAttrib(VBO1, 1, 3, GL_FLOAT, 6 * sizeof(float), (void *)(3 * sizeof(float)));
     // Unbinds all to prevent accidentally modifying them
     VAO1->unbind();
     VBO1->unbind();
     EBO1->unbind();
+
+    // Gets ID of uniform called "scale"
+    GLuint uniID = glGetUniformLocation(shaderProgram->getID(), "scale");
 
     // Main while loop
     while (!(glfwWindowShouldClose(window) || glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS))
@@ -93,6 +96,8 @@ int main()
         
         // Tell OpenGL which Shader Program we want to use
         shaderProgram->activate();
+        // Assigns a value to the uniform; NOTE: Must always be done after activating the shader program
+        glUniform1f(uniID, 0.5f);
         // Bind the VAO so OpenGL knows to use it
         VAO1->bind();
 

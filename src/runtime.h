@@ -21,6 +21,8 @@ class Shader
 private:
     // Reference ID of the shader program
     GLuint ID;
+    // Checks if the different shaders have compiled properly
+    void compileErrors(unsigned int shader, const char * type);
 public:
     // Build the shader program from 2 given file names
     Shader(fs::path vertexFile, fs::path fragmentFile);
@@ -76,7 +78,7 @@ public:
     ~VAO();
     // Get the ID of the VAO
     GLuint getID();
-    // Binds a VBO to the VAO using a certain layout
+    // Links a VBO attribute to the VAO using a certain layout
     void linkAttrib(VBO * VBO, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void * offset);
     // Binds the VAO
     void bind();

@@ -37,6 +37,8 @@ Shader::Shader(fs::path vertexFile, fs::path fragmentFile)
     glShaderSource(vertexShader, 1, &vertexSource, nullptr);
     // Compile the Vertex Shader into machine code
     glCompileShader(vertexShader);
+    // Checks if shader compiled successfully
+    this->compileErrors(vertexShader, "VERTEX");
 
     // Create Fragment Shader object and get its reference
     GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -44,6 +46,8 @@ Shader::Shader(fs::path vertexFile, fs::path fragmentFile)
     glShaderSource(fragmentShader, 1, &fragmentSource, nullptr);
     // Compile the Fragment Shader into machine code
     glCompileShader(fragmentShader);
+    // Checks if shader compiled successfully
+    compileErrors(fragmentShader, "FRAGMENT");
 
     // Create Shader Program and get its reference
     this->ID = glCreateProgram();
@@ -52,6 +56,8 @@ Shader::Shader(fs::path vertexFile, fs::path fragmentFile)
     glAttachShader(this->ID, fragmentShader);
     // Wrap-up/Link all the shaders together into the Shader Program
     glLinkProgram(this->ID);
+    // Checks if shader linked successfully
+    compileErrors(this->ID, "PROGRAM");
 
     // Delete the now useless Vertex and Fragment Shader objects
     glDeleteShader(vertexShader);
@@ -71,6 +77,30 @@ GLuint Shader::getID()
 void Shader::activate()
 {
     glUseProgram(this->ID);
+}
+
+void Shader::compileErrors(unsigned int shader, const char * type)
+{
+    GLint hasCompiled;
+    char infoLog[1024];
+    if (type != "PROGRAM")
+    {
+        glGetShaderiv(shader, GL_COMPILE_STATUS, &hasCompiled);
+        if (hasCompiled == GL_FALSE)
+        {
+            glGetShaderInfoLog(shader, 1024, nullptr, infoLog);
+            std::cerr << "SHADER_COMPLICATION_ERROR for:" << type << "\n\n";
+        }
+    }
+    else
+    {
+        glGetShaderiv(shader, GL_COMPILE_STATUS, &hasCompiled);
+        if (hasCompiled == GL_FALSE)
+        {
+            glGetProgramInfoLog(shader, 1024, nullptr, infoLog);
+            std::cerr << "SHADER_LINKING_ERROR for:" << type << "\n\n";
+        }
+    }
 }
 
 //---------------------------VAO----------------------------------
